@@ -1,0 +1,196 @@
+[build-system]
+build-backend = "hatchling.build"
+requires = [
+    "hatchling",
+]
+
+[project]
+name = "toggle-django-utils"
+version = "0.1.0"
+description = "Shared Django utilities for Toggle projects"
+readme = "README.md"
+requires-python = ">=3.11,<4"
+license = { text = "Apache-2.0" }
+authors = [
+  { name = "Toggle developer", email = "dev@togglecorp.com" }
+]
+
+dependencies = [
+  "Django>=4",
+  "httpx>=0.28.1",
+  "redis>=4.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "django-stubs",
+    "colorlog",
+    "djangorestframework-stubs>=3.15.3",
+    "types-factory-boy>=0.4.1",
+]
+
+[dependency-groups]
+dev = [
+    "pandas-stubs",
+    "djangorestframework-stubs>=3.15.3",
+    "celery-types",
+    "types-factory-boy>=0.4.1",
+    "ipython",
+    "colorlog",
+    "json5",
+]
+
+[project.urls]
+Homepage = "https://github.com/toggle-corp/toggle-django-utils"
+Repository = "https://github.com/toggle-corp/toggle-django-utils"
+Issues = "https://github.com/toggle-corp/toggle-django-utils/issues"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/toggle_django_utils"]
+
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = ["E402"]
+"/**/tests/*_mock_data.py" = ["E501"]
+"**/snap_test_*.py" = ["E501"]
+"!./apps/**/models.py" = ["D101"]  # undocumented-public-class
+
+[tool.ruff]
+line-length = 125
+extend-exclude = [
+    ".git",
+    ".pytest_cache",
+    ".mypy_cache",
+    ".ruff_cache",
+    ".venv",
+    "venv",
+    "**/migrations/*",
+    "__pycache__",
+]
+
+
+[tool.ruff.lint]
+flake8-builtins.builtins-strict-checking = false
+extend-select = [
+    "I",  # isort
+    "E",  # pycodestyle
+    "F",  # pyflakes
+    "B",  # flake8-bugbear
+    "A",  # flake8-builtins
+    "W",  # pycodestyle
+    "DJ",  # flake8-django
+    "AIR",  # airflow
+    "COM",  # flake8-commas
+    "INT",  # flake8-gettext
+    "ISC",  # flake8-implicit-str-concat
+    "ICN",  # flake8-import-conventions
+    "LOG",  # flake8-logging
+    "G",  # flake8-logging-format
+    "T20",  # flake8-print
+    "TID",  # flake8-tidy-imports
+    "PT",  # flake8-pytest-style
+    "Q",  # flake8-quotes
+    "RET",  # flake8-return
+    "SIM",  # flake8-simplify
+    "TC",  # flake8-type-checking
+    "PTH",  # flake8-use-pathlib
+    "UP",  # pyupgrad
+
+    "ASYNC",  # flake8-async
+    "S",  # flake8-bandit
+    "BLE",  # blind-except
+    # "FBT",  # flake8-boolean-trap
+    # "C4",  # flake8-comprehensions
+    # "DTZ",  # flake8-datetimez
+    # "EM",  # flake8-errmsg
+    "FA",  # flake8-future-annotations
+    "INP",  # flake8-no-pep420
+    "PIE",  # flake8-pie
+    "RSE",  # flake8-raise
+    # "SLF",  # flake8-self
+    "SLOT",  # flake8-slots
+    "FLY",  # flynt
+    "C90",  # mccabe
+    # "N",  # pep8-naming
+    # "PERF",  # Perflint
+    "PGH",  # pygrep-hooks
+    "PLC",  # Convention
+    "PLE",  # Error
+    # "PLR",  # Refactor
+    "PLW",  # Warning
+    "FURB",  # refurb
+    "RUF",  # Ruff-specific rules
+    "TRY",  # tryceratops
+]
+ignore = [
+    "C901",  # C90 complex-structure
+    "E701",  # E multiple-statements-on-one-line-colon
+    "E203",  # E whitespace-before-punctuation
+    "DJ001",  # DJ django-nullable-model-string-field
+    # FIXME(thenav56): Check if we can enable G201 and keep sending logs to sentry
+    "G201",  # G logging-exc-info
+
+    "BLE001",  # BLE blind-except (NOTE: "except Exception" is already explicitly defined)
+    "S101",  # S assert
+    "S608",  # hardcoded-sql-expression
+    "RUF012",  # mutable-class-default
+    "TRY300",  # try-consider-else
+    "TRY003",  # raise-vanilla-args
+    "TRY002",  # raise-vanilla-class
+    "TRY301",  # raise-within-try
+    "TRY400",  # error-instead-of-exception
+
+    "E501",
+    "TRY004",
+    "TC003",
+]
+
+[tool.pyright]
+venvPath = "."
+venv = ".venv"
+exclude = [
+    "**/__pycache__",
+    "**/snap_test_*.py",
+    ".venv/",
+]
+typeCheckingMode = "standard"
+analyzeUnannotatedFunctions = true
+enableReachabilityAnalysis = true
+strictDictionaryInference = true
+strictListInteference = true
+strictSetInference = true
+reportCallInDefaultInitializer = "information"
+reportConstantRedefinition = "error"
+reportDeprecated = "information"
+reportDuplicateImport = "warning"
+reportImplicitOverride = "warning"
+reportImplicitStringConcatenation = "none"
+reportImportCycles = "warning"
+reportInconsistentConstructor = "warning"
+reportMatchNotExhaustive = "warning"
+reportMissingImports = "error"
+reportMissingParameterType = "warning"
+reportMissingTypeArgument = "warning"
+reportMissingTypeStubs = "warning"
+reportPrivateUsage = "error"
+reportPropertyTypeMismatch = "error"
+reportShadowedImports = "error"
+reportUninitializedInstanceVariable = "warning"
+reportUnknownArgumentType = "none"
+reportUnknownLambdaType = "none"
+reportUnknownMemberType = "none"
+reportUnknownParameterType = "none"
+reportUnknownVariableType = "none"
+reportUnnecessaryCast = "warning"
+reportUnnecessaryComparison = "warning"
+reportUnnecessaryContains = "warning"
+reportUnnecessaryIsInstance = "warning"
+reportUntypedBaseClass = "warning"
+reportUntypedClassDecorator = "warning"
+reportUntypedFunctionDecorator = "warning"
+reportUntypedNamedTuple = "warning"
+reportUnusedClass = "warning"
+reportUnusedExpression = "warning"
+reportUnusedFunction = "warning"
+reportUnusedImport = "warning"
+reportUnusedVariable = "warning"
+reportPrivateImportUsage = "error"
